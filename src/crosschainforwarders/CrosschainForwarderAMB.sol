@@ -9,6 +9,15 @@ interface IAMB {
     bytes memory _data,
     uint256 _gas
   ) external returns (bytes32);
+
+  function maxGasPerTx(
+  ) external view returns (uint256);
+}
+
+interface IAMBBridgeExecutor {
+  function processMessageFromAMB(
+    bytes calldata data
+  ) external;
 }
 
 /**
@@ -16,7 +25,8 @@ interface IAMB {
  * @author BGD Labs
  * @notice You can **only** use this executor when the AMB payload has a `execute()` signature without parameters
  * @notice You can **only** use this executor when the AMB payload is expected to be executed via `DELEGATECALL`
- * @notice You can **only** execute payloads on Gnosis Chain with up to max gas which is specified in `MAX_GAS_LIMIT` gas.
+ * @notice You can **only** execute payloads on Gnosis Chain with up to max gas which is specified in `MAX_GAS_LIMIT` gas that
+ * is returned from calling the AMB contract.
  * @dev This executor is a generic wrapper to be used with AMB (https://etherscan.io/address/0x4C36d2919e407f0Cc2Ee3c993ccF8ac26d9CE64e)
  * It encodes and sends via the L2CrossDomainMessenger a message to queue for execution an action on Gnosis Chain, in the Aave AMB_BRIDGE_EXECUTOR.
  */
@@ -33,12 +43,8 @@ contract CrosschainForwarderAMB {
    * This contract allows queuing of proposals by allow listed addresses (in this case the Mainnet short executor).
    * https://gnosisscan.io/address/0x75Df5AF045d91108662D8080fD1FEFAd6aA0bb59
    */
+  // TODO Replace with deployment address
   address public constant AMB_BRIDGE_EXECUTOR = 0x75Df5AF045d91108662D8080fD1FEFAd6aA0bb59;
-
-  /**
-   * @dev The gas limit of the queue transaction by the L2CrossDomainMessenger on Gnosis Chain.
-   */
-  uint256 public constant MAX_GAS_LIMIT = 5_000_000;
 
   /**
    * @dev this function will be executed once the proposal passes the mainnet vote.
@@ -65,10 +71,15 @@ contract CrosschainForwarderAMB {
       withDelegatecalls
     );
 
+    bytes memory ambCall = abi.encodeWithSelector(
+      IAMBBridgeExecutor.processMessageFromAMB.selector,
+      queue
+    );
+
     IAMB(L1_AMB_CROSS_DOMAIN_MESSENGER_ADDRESS).requireToPassMessage(
       AMB_BRIDGE_EXECUTOR,
-      queue,
-      MAX_GAS_LIMIT
+      ambCall,
+      IAMB(L1_AMB_CROSS_DOMAIN_MESSENGER_ADDRESS).maxGasPerTx()
     );
   }
 }
