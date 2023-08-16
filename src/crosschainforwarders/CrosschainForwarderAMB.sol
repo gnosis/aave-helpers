@@ -14,12 +14,6 @@ interface IAMB {
   ) external view returns (uint256);
 }
 
-interface IAMBBridgeExecutor {
-  function processMessageFromAMB(
-    bytes calldata data
-  ) external;
-}
-
 /**
  * @title A generic executor for proposals targeting the gnosis chain v3 pool
  * @author BGD Labs
@@ -71,14 +65,9 @@ contract CrosschainForwarderAMB {
       withDelegatecalls
     );
 
-    bytes memory ambCall = abi.encodeWithSelector(
-      IAMBBridgeExecutor.processMessageFromAMB.selector,
-      queue
-    );
-
     IAMB(L1_AMB_CROSS_DOMAIN_MESSENGER_ADDRESS).requireToPassMessage(
       AMB_BRIDGE_EXECUTOR,
-      ambCall,
+      queue,
       IAMB(L1_AMB_CROSS_DOMAIN_MESSENGER_ADDRESS).maxGasPerTx()
     );
   }
