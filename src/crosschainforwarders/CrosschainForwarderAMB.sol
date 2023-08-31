@@ -37,8 +37,7 @@ contract CrosschainForwarderAMB {
    * This contract allows queuing of proposals by allow listed addresses (in this case the Mainnet short executor).
    * https://gnosisscan.io/address/0x75Df5AF045d91108662D8080fD1FEFAd6aA0bb59
    */
-  // TODO Replace with deployment address
-  address public constant AMB_BRIDGE_EXECUTOR = 0x75Df5AF045d91108662D8080fD1FEFAd6aA0bb59;
+  address public constant AMB_BRIDGE_EXECUTOR = 0xc4218C1127cB24a0D6c1e7D25dc34e10f2625f5A;
 
   /**
    * @dev this function will be executed once the proposal passes the mainnet vote.
