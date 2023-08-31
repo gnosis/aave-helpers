@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 import 'forge-std/Test.sol';
 //import {AaveV3Optimism, AaveMisc} from 'aave-address-book/AaveAddressBook.sol';
+import {AaveMisc} from 'aave-address-book/AaveAddressBook.sol';
 import {AaveGovernanceV2, IExecutorWithTimelock} from 'aave-address-book/AaveGovernanceV2.sol';
 //import {AddressAliasHelper} from 'governance-crosschain-bridges/contracts/dependencies/arbitrum/AddressAliasHelper.sol';
 import {IL2CrossDomainMessenger} from 'governance-crosschain-bridges/contracts/dependencies/optimism/interfaces/IL2CrossDomainMessenger.sol';
@@ -18,21 +19,21 @@ contract GnosisCrossChainForwarderTest is ProtocolV3TestBase {
   event TestEvent();
   // the identifiers of the forks
   uint256 mainnetFork;
-  uint256 optimismFork;
+  uint256 gnosisFork;
 
-  address public constant OPTIMISM_BRIDGE_EXECUTOR = AaveGovernanceV2.OPTIMISM_BRIDGE_EXECUTOR;
+  address public constant GNOSIS_BRIDGE_EXECUTOR = '0xc4218C1127cB24a0D6c1e7D25dc34e10f2625f5A';
 
   IL2CrossDomainMessenger public OVM_L2_CROSS_DOMAIN_MESSENGER =
     IL2CrossDomainMessenger(0x4200000000000000000000000000000000000007);
 
   PayloadWithEmit public payloadWithEmit;
 
-  CrosschainForwarderOptimism public forwarder;
+  CrosschainForwarderAMB public forwarder;
 
   function setUp() public {
     mainnetFork = vm.createSelectFork(vm.rpcUrl('mainnet'), 15783218);
-    forwarder = new CrosschainForwarderOptimism();
-    optimismFork = vm.createSelectFork(vm.rpcUrl('optimism'), 30264427);
+    forwarder = new CrosschainForwarderAMB();
+    gnosisFork = vm.createSelectFork(vm.rpcUrl('gnosis'), 29745852);
     payloadWithEmit = new PayloadWithEmit();
   }
 
@@ -60,21 +61,21 @@ contract GnosisCrossChainForwarderTest is ProtocolV3TestBase {
     GovHelpers.passVoteAndExecute(vm, proposalId);
     Vm.Log[] memory entries = vm.getRecordedLogs();
     assertEq(keccak256('SentMessage(address,address,bytes,uint256,uint256)'), entries[3].topics[0]);
-    assertEq(address(uint160(uint256(entries[3].topics[1]))), OPTIMISM_BRIDGE_EXECUTOR);
+    assertEq(address(uint160(uint256(entries[3].topics[1]))), GNOSIS_BRIDGE_EXECUTOR);
     (address sender, bytes memory message, uint256 nonce) = abi.decode(
       entries[3].data,
       (address, bytes, uint256)
     );
 
     // 3. mock the receive on l2 with the data emitted on StateSynced
-    vm.selectFork(optimismFork);
+    vm.selectFork(gnosisFork);
     vm.startPrank(0x36BDE71C97B33Cc4729cf772aE268934f7AB70B2); // AddressAliasHelper.applyL1ToL2Alias on L1_CROSS_DOMAIN_MESSENGER_ADDRESS
-    OVM_L2_CROSS_DOMAIN_MESSENGER.relayMessage(OPTIMISM_BRIDGE_EXECUTOR, sender, message, nonce);
+    OVM_L2_CROSS_DOMAIN_MESSENGER.relayMessage(GNOSIS_BRIDGE_EXECUTOR, sender, message, nonce);
     vm.stopPrank();
 
     // 4. execute proposal on l2
     vm.expectEmit(true, true, true, true);
     emit TestEvent();
-    GovHelpers.executeLatestActionSet(vm, OPTIMISM_BRIDGE_EXECUTOR);
+    GovHelpers.executeLatestActionSet(vm, GNOSIS_BRIDGE_EXECUTOR);
   }
 }
