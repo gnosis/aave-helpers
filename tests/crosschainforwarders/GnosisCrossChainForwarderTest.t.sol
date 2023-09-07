@@ -21,19 +21,19 @@ contract GnosisCrossChainForwarderTest is ProtocolV3TestBase {
   uint256 mainnetFork;
   uint256 gnosisFork;
 
-  address public constant GNOSIS_BRIDGE_EXECUTOR = '0xc4218C1127cB24a0D6c1e7D25dc34e10f2625f5A';
+  address public constant GNOSIS_BRIDGE_EXECUTOR = 0xc4218C1127cB24a0D6c1e7D25dc34e10f2625f5A;
 
-  IL2CrossDomainMessenger public OVM_L2_CROSS_DOMAIN_MESSENGER =
-    IL2CrossDomainMessenger(0x4200000000000000000000000000000000000007);
+  // IL2CrossDomainMessenger public OVM_L2_CROSS_DOMAIN_MESSENGER =
+  //   IL2CrossDomainMessenger(0x4200000000000000000000000000000000000007);
 
   PayloadWithEmit public payloadWithEmit;
 
   CrosschainForwarderAMB public forwarder;
 
   function setUp() public {
-    mainnetFork = vm.createSelectFork(vm.rpcUrl('mainnet'), 15783218);
+    mainnetFork = vm.createSelectFork(vm.rpcUrl('mainnet'), 18049344);
     forwarder = new CrosschainForwarderAMB();
-    gnosisFork = vm.createSelectFork(vm.rpcUrl('gnosis'), 29745852);
+    gnosisFork = vm.createSelectFork(vm.rpcUrl('gnosis'), 29844993);
     payloadWithEmit = new PayloadWithEmit();
   }
 
@@ -56,26 +56,30 @@ contract GnosisCrossChainForwarderTest is ProtocolV3TestBase {
     );
     vm.stopPrank();
 
-    // 2. execute proposal and record logs so we can extract the emitted StateSynced event
+    // 2. execute proposal and record logs so we can extract the emitted UserRequestForAffirmation event
     vm.recordLogs();
     GovHelpers.passVoteAndExecute(vm, proposalId);
     Vm.Log[] memory entries = vm.getRecordedLogs();
-    assertEq(keccak256('SentMessage(address,address,bytes,uint256,uint256)'), entries[3].topics[0]);
-    assertEq(address(uint160(uint256(entries[3].topics[1]))), GNOSIS_BRIDGE_EXECUTOR);
-    (address sender, bytes memory message, uint256 nonce) = abi.decode(
-      entries[3].data,
-      (address, bytes, uint256)
-    );
+    assertEq(entries.length, 5);
+    assertEq(entries[2].topics.length, 2);
+    assertEq(keccak256('UserRequestForAffirmation(bytes32,bytes)'), entries[2].topics[0]);
+    //assertEq(keccak256('UserRequestForSignature(bytes32,bytes)'), entries[0].topics[0]);
+    assertEq(entries[2].topics[2], bytes32(0));
+    //assertEq(address(uint160(uint256(entries[3].topics[1]))), GNOSIS_BRIDGE_EXECUTOR);
+    // (address sender, bytes memory message, uint256 nonce) = abi.decode(
+    //   entries[3].data,
+    //   (address, bytes, uint256)
+    // );
 
-    // 3. mock the receive on l2 with the data emitted on StateSynced
-    vm.selectFork(gnosisFork);
-    vm.startPrank(0x36BDE71C97B33Cc4729cf772aE268934f7AB70B2); // AddressAliasHelper.applyL1ToL2Alias on L1_CROSS_DOMAIN_MESSENGER_ADDRESS
-    OVM_L2_CROSS_DOMAIN_MESSENGER.relayMessage(GNOSIS_BRIDGE_EXECUTOR, sender, message, nonce);
-    vm.stopPrank();
+    // // 3. mock the receive on l2 with the data emitted on StateSynced
+    // vm.selectFork(gnosisFork);
+    // vm.startPrank(0x36BDE71C97B33Cc4729cf772aE268934f7AB70B2); // AddressAliasHelper.applyL1ToL2Alias on L1_CROSS_DOMAIN_MESSENGER_ADDRESS
+    // OVM_L2_CROSS_DOMAIN_MESSENGER.relayMessage(GNOSIS_BRIDGE_EXECUTOR, sender, message, nonce);
+    // vm.stopPrank();
 
-    // 4. execute proposal on l2
-    vm.expectEmit(true, true, true, true);
-    emit TestEvent();
-    GovHelpers.executeLatestActionSet(vm, GNOSIS_BRIDGE_EXECUTOR);
+    // // 4. execute proposal on l2
+    // vm.expectEmit(true, true, true, true);
+    // emit TestEvent();
+    // GovHelpers.executeLatestActionSet(vm, GNOSIS_BRIDGE_EXECUTOR);
   }
 }

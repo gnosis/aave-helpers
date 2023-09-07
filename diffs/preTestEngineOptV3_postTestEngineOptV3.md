@@ -33,6 +33,23 @@
 
 ```json
 {
+  "strategies": {
+    "0xc76EF342898f1AE7E6C4632627Df683FAD8563DD": {
+      "from": null,
+      "to": {
+        "stableRateSlope2": "800000000000000000000000000",
+        "stableRateSlope1": "40000000000000000000000000",
+        "maxExcessUsageRatio": "200000000000000000000000000",
+        "optimalStableToTotalDebtRatio": "200000000000000000000000000",
+        "variableRateSlope2": "800000000000000000000000000",
+        "baseVariableBorrowRate": "10000000000000000000000000",
+        "variableRateSlope1": "38000000000000000000000000",
+        "optimalUsageRatio": "800000000000000000000000000",
+        "baseStableBorrowRate": "68000000000000000000000000",
+        "maxExcessStableToTotalDebtRatio": "800000000000000000000000000"
+      }
+    }
+  },
   "reserves": {
     "0x4200000000000000000000000000000000000006": {
       "interestRateStrategy": {
@@ -48,23 +65,6 @@
       "interestRateStrategy": {
         "from": "0x41B66b4b6b4c9dab039d96528D1b88f7BAF8C5A4",
         "to": "0xA9F3C3caE095527061e6d270DBE163693e6fda9D"
-      }
-    }
-  },
-  "strategies": {
-    "0xc76EF342898f1AE7E6C4632627Df683FAD8563DD": {
-      "from": null,
-      "to": {
-        "baseStableBorrowRate": "68000000000000000000000000",
-        "baseVariableBorrowRate": "10000000000000000000000000",
-        "maxExcessStableToTotalDebtRatio": "800000000000000000000000000",
-        "maxExcessUsageRatio": "200000000000000000000000000",
-        "optimalStableToTotalDebtRatio": "200000000000000000000000000",
-        "optimalUsageRatio": "800000000000000000000000000",
-        "stableRateSlope1": "40000000000000000000000000",
-        "stableRateSlope2": "800000000000000000000000000",
-        "variableRateSlope1": "38000000000000000000000000",
-        "variableRateSlope2": "800000000000000000000000000"
       }
     }
   }

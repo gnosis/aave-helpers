@@ -29,6 +29,6 @@ polygon={key="${ETHERSCAN_API_KEY_POLYGON}",chainId=137}
 arbitrum={key="${ETHERSCAN_API_KEY_ARBITRUM}",chainId=42161}
 fantom={key="${ETHERSCAN_API_KEY_FANTOM}",chainId=250}
 base = { key="any", chainId=8453, url='https://basescan.org/' }
-gnosis = { key="any", chainId=100, url='https://blockscout.com/xdai/mainnet/api' }
+gnosis = { key="any", chainId=100, url='https://api.gnosisscan.io/api' }
 
 # See more config options https://github.com/gakonst/foundry/tree/master/config

@@ -29,13 +29,13 @@
     "0xc76EF342898f1AE7E6C4632627Df683FAD8563DD": {
       "from": null,
       "to": {
-        "baseVariableBorrowRate": 0,
-        "maxExcessUsageRatio": "310000000000000000000000000",
         "optimalUsageRatio": "690000000000000000000000000",
         "stableRateSlope1": "690000000000000000000000000",
-        "stableRateSlope2": "600000000000000000000000000",
+        "baseVariableBorrowRate": 0,
+        "variableRateSlope2": "600000000000000000000000000",
         "variableRateSlope1": "420000000000000000000000000",
-        "variableRateSlope2": "600000000000000000000000000"
+        "maxExcessUsageRatio": "310000000000000000000000000",
+        "stableRateSlope2": "600000000000000000000000000"
       }
     }
   }

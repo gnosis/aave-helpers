@@ -35,13 +35,13 @@
 | stableBorrowRateEnabled | false |
 | isBorrowableInIsolation | false |
 | interestRateStrategy | [0x03733F4E008d36f2e37F0080fF1c8DF756622E6F](https://polygonscan.com/address/0x03733F4E008d36f2e37F0080fF1c8DF756622E6F) |
-| aTokenName | Aave Polygon 1INCH |
-| aTokenSymbol | aPol1INCH |
+| variableDebtTokenSymbol | variableDebtPol1INCH |
 | isPaused | false |
 | stableDebtTokenName | Aave Polygon Stable Debt 1INCH |
-| stableDebtTokenSymbol | stableDebtPol1INCH |
 | variableDebtTokenName | Aave Polygon Variable Debt 1INCH |
-| variableDebtTokenSymbol | variableDebtPol1INCH |
+| aTokenName | Aave Polygon 1INCH |
+| stableDebtTokenSymbol | stableDebtPol1INCH |
+| aTokenSymbol | aPol1INCH |
 | optimalUsageRatio | 45 % |
 | maxExcessUsageRatio | 55 % |
 | baseVariableBorrowRate | 0 % |
@@ -63,44 +63,44 @@
     "0x9c2C5fd7b07E95EE044DDeba0E97a665F142394f": {
       "from": null,
       "to": {
-        "aToken": "0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD",
-        "aTokenImpl": "0xCf85FF1c37c594a10195F7A9Ab85CBb0a03f69dE",
-        "aTokenName": "Aave Polygon 1INCH",
-        "aTokenSymbol": "aPol1INCH",
-        "borrowCap": 60000,
-        "borrowingEnabled": true,
-        "debtCeiling": 0,
-        "decimals": 18,
-        "eModeCategory": 0,
-        "interestRateStrategy": "0x03733F4E008d36f2e37F0080fF1c8DF756622E6F",
-        "isActive": true,
-        "isBorrowableInIsolation": false,
-        "isFlashloanable": false,
-        "isFrozen": false,
-        "isPaused": false,
-        "isSiloed": false,
-        "liquidationBonus": 10500,
+        "variableDebtToken": "0xE701126012EC0290822eEA17B794454d1AF8b030",
+        "variableDebtTokenSymbol": "variableDebtPol1INCH",
         "liquidationProtocolFee": 1000,
-        "liquidationThreshold": 8600,
-        "ltv": 8250,
-        "oracle": "0x443C5116CdF663Eb387e72C688D276e702135C87",
-        "oracleDecimals": 8,
-        "oracleDescription": "1INCH / USD",
-        "oracleLatestAnswer": 41296368,
-        "reserveFactor": 1000,
-        "stableBorrowRateEnabled": false,
-        "stableDebtToken": "0xc889e9f8370D14A428a9857205d99BFdB400b757",
-        "stableDebtTokenImpl": "0x50ddd0Cd4266299527d25De9CBb55fE0EB8dAc30",
-        "stableDebtTokenName": "Aave Polygon Stable Debt 1INCH",
-        "stableDebtTokenSymbol": "stableDebtPol1INCH",
-        "supplyCap": 85000,
-        "symbol": "1INCH",
         "underlying": "0x9c2C5fd7b07E95EE044DDeba0E97a665F142394f",
         "usageAsCollateralEnabled": true,
-        "variableDebtToken": "0xE701126012EC0290822eEA17B794454d1AF8b030",
-        "variableDebtTokenImpl": "0x79b5e91037AE441dE0d9e6fd3Fd85b96B83d4E93",
+        "decimals": 18,
+        "isPaused": false,
+        "stableDebtTokenName": "Aave Polygon Stable Debt 1INCH",
         "variableDebtTokenName": "Aave Polygon Variable Debt 1INCH",
-        "variableDebtTokenSymbol": "variableDebtPol1INCH"
+        "oracleDecimals": 8,
+        "isSiloed": false,
+        "liquidationThreshold": 8600,
+        "oracleLatestAnswer": 41296368,
+        "isFlashloanable": false,
+        "ltv": 8250,
+        "debtCeiling": 0,
+        "symbol": "1INCH",
+        "variableDebtTokenImpl": "0x79b5e91037AE441dE0d9e6fd3Fd85b96B83d4E93",
+        "aTokenName": "Aave Polygon 1INCH",
+        "interestRateStrategy": "0x03733F4E008d36f2e37F0080fF1c8DF756622E6F",
+        "isFrozen": false,
+        "eModeCategory": 0,
+        "liquidationBonus": 10500,
+        "aTokenImpl": "0xCf85FF1c37c594a10195F7A9Ab85CBb0a03f69dE",
+        "oracleDescription": "1INCH / USD",
+        "borrowCap": 60000,
+        "isBorrowableInIsolation": false,
+        "stableDebtToken": "0xc889e9f8370D14A428a9857205d99BFdB400b757",
+        "isActive": true,
+        "aToken": "0xA4D94019934D8333Ef880ABFFbF2FDd611C762BD",
+        "stableDebtTokenSymbol": "stableDebtPol1INCH",
+        "stableBorrowRateEnabled": false,
+        "borrowingEnabled": true,
+        "reserveFactor": 1000,
+        "oracle": "0x443C5116CdF663Eb387e72C688D276e702135C87",
+        "aTokenSymbol": "aPol1INCH",
+        "stableDebtTokenImpl": "0x50ddd0Cd4266299527d25De9CBb55fE0EB8dAc30",
+        "supplyCap": 85000
       }
     }
   }
